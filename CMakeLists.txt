@@ -20,8 +20,13 @@ set_property(TARGET hermes-host-starter PROPERTY CXX_STANDARD_REQUIRED On)
 set_property(TARGET hermes-host-starter PROPERTY CXX_EXTENSIONS Off)
 target_include_directories(hermes-host-starter PUBLIC "${PROJECT_SOURCE_DIR}/lib/hermes/include")
 target_link_directories(hermes-host-starter PUBLIC "${PROJECT_SOURCE_DIR}/lib/hermes/lib")
-
+if (WIN32)
 target_link_libraries(hermes-host-starter hermes jsi)
+else()
+#on linux jsi is statically linked into libhermies.so 
+#the developers of hermes intended that this happen on windows too, but it doesn't
+target_link_libraries(hermes-host-starter hermes)
+endif()
 
 if (WIN32) 
 	install(FILES "${PROJECT_SOURCE_DIR}/lib/hermes/bin/hermes.dll" DESTINATION "${PROJECT_BINARY_DIR}")
