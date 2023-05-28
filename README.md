@@ -9,23 +9,24 @@ These instructions assume a 64 bit platform. I do not know if a 32 bit build wil
 these instructions are for either **Debian 11.7.0** or the **current** chromebook Linux environment, you may need to update your linux environment first. 
 Ubuntu may work, unless you are cross compiling for ARM64 (see below)
 
+I assume you have set up sudo (Debian), so if you have not done so do that first.
+
 (note: if you have an x64 chromebook i'd apprechiate feedback as to whether this works. Mine is ARM64)
 
-    sudo apt-get install cmake gcc libicu-dev ninja
+    sudo apt-get install cmake gcc g++ libicu-dev ninja-build
     cd ~/code (or wherever you want to put it)
-    git clone http://github.com/serishema/hermes-host-starter
+    git clone --recurse-submodules https://github.com/serishema/hermes-host-starter
     cd hermes-host-starter
-    git submodule update --recursive
     cd third_party/hermes
-    cmake -DCMAKE_INSTALL_PREFIX=../../lib/hermes -DHERMES_ENABLE_TEST_SUITE=false  -S . -B build
+    cmake -DCMAKE_INSTALL_PREFIX=../../lib/hermes -DHERMES_ENABLE_TEST_SUITE=false  -S . -B build -G Ninja
 for debian
 
     ninja -C build 
     ninja -C build install (do not skip this step)
-and for chromebook (ninja is not available in the repos)
+and for chromebook (with the default options ld will run out of memory and crash)
     
-    make -j 2 -C build 
-    make -C build install
+    ninja -j 2 -C build 
+    ninja -C build install
 This will build hermes from source code as the hermes project does not distribute precompiled binaries. 
 
 On a Ryzen 5 5600 this takes around 5 minutes. 
@@ -37,17 +38,17 @@ you only need to do the above once.
 
 now return to the root of the project and type 
 
-    cmake -S . -B build 
+    cmake -S . -B build -G Ninja
 
-then run make or ninja again as applies to your platform
+then run ninja again
 
     ninja -C build
-or 
+or (chromebook)
 
-    make -j 2 -C build 
+    ninja -j 2 -C build 
 
 type 
-
+    ninja -C build install
     ./build/hermes-host-starter ./js/index.js 
 
 to run the program
@@ -70,9 +71,8 @@ open the Visual Studio x64 Native tools command prompt (not the standard termina
 and type 
 
     cd D:\code (or wherever you want to put it)
-    git clone http://github.com/serishema/hermes-host-starter
+    git clone --recurse-submodules https://github.com/serishema/hermes-host-starter
     cd hermes-host-starter
-    git submodule update --recursive
     cd third_party\hermes
     cmake -DCMAKE_INSTALL_PREFIX=..\..\lib\hermes -DHERMES_ENABLE_TEST_SUITE=false -DHERMESVM_ALLOW_INLINE_ASM=false -DHERMES_BUILD_SHARED_JSI=true  -S . -B build
     ninja -C build
