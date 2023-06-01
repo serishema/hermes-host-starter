@@ -1,5 +1,8 @@
 # Hermes host starter
 
+this is the android branch where I am working on how to get this running on android phones.
+right now it doesn't do anything although libhermes builds and is linked to the NativeActivity
+
 This is a simple demo project to show how to host the hermes javascript 
 runtime in a C++ application. Plain C is not supported as the API is C++
 
