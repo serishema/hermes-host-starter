@@ -97,6 +97,9 @@ task buildHermes(dependsOn: configureBuildForHermes, type: Exec) {
 task prepareHeadersForPrefab(type: Copy) {
     from("$hermesDir/API/jsi")
     include("jsi/*.h")
+    from("$hermesDir/API")
+    include("*.h")
+    include("synthtest/*.h")
     from("$hermesDir/public")
     include("**/*.h")
     //exclude("jsi/**")
